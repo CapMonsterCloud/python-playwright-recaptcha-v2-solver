@@ -1,6 +1,11 @@
-# reCAPTCHA v2 Solver for Python Playwright (Google reCAPTCHA) with CapMonster Cloud
+# reCAPTCHA v2 Solver for Python Playwright (CapMonster Cloud)
 
-A minimal, runnable **Python reCAPTCHA v2 solver** for **Playwright**: it solves the Google reCAPTCHA v2 checkbox inside a Playwright for Python session using the official CapMonster Cloud Python SDK (`capmonstercloudclient`). Use it as a starting point when your Playwright scripts hit Google reCAPTCHA on forms you test or automate.
+[![tests](https://github.com/CapMonsterCloud/python-playwright-recaptcha-v2-solver/actions/workflows/test.yml/badge.svg)](https://github.com/CapMonsterCloud/python-playwright-recaptcha-v2-solver/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
+[![Playwright 1.45+](https://img.shields.io/badge/Playwright-1.45%2B-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev/python/)
+
+A minimal, runnable **Google reCAPTCHA v2 solver for Python Playwright**. It opens a page in Chromium, detects the sitekey, requests a token from the [CapMonster Cloud reCAPTCHA v2 solver](https://capmonster.cloud/en/recaptcha-v2/?utm_source=github&utm_medium=repo-example&utm_campaign=python-playwright-recaptcha-v2&utm_content=intro) through the official Python SDK (`capmonstercloudclient`), puts the token into the page and can submit the form. Use it as a starting point when your Playwright scripts hit the reCAPTCHA v2 checkbox on forms you test or automate.
 
 ## What this example does
 
@@ -14,7 +19,7 @@ By default it runs against the public demo page `lessons.zennolab.com`, so you c
 ## Requirements
 
 - Python 3.9+
-- A CapMonster Cloud API key (from your account dashboard)
+- A CapMonster Cloud API key (see [Get an API key](#get-an-api-key))
 - Chromium for Playwright (installed by the command below)
 
 ## Quick start
@@ -45,6 +50,12 @@ pytest -q
 - **Token delivery the way Google does it.** `INJECT_TOKEN_JS` fills every `textarea[name="g-recaptcha-response"]` (some pages render more than one) and calls the function named in `data-callback`. Many modern forms enable the submit button only from that callback, so filling the textarea alone is not enough.
 - **Secrets stay out of logs.** Only the first 32 characters of the token are printed.
 
+## reCAPTCHA v2 token basics
+
+- The token is a `g-recaptcha-response` string. Put it into the hidden textarea or pass it to the widget callback.
+- reCAPTCHA v2 tokens are single-use and short-lived. Request a new token for every submission and submit right away.
+- Pass the same page URL and sitekey that the browser used, otherwise the token can be rejected on validation.
+
 ## Common errors
 
 | Symptom | Cause and fix |
@@ -56,6 +67,10 @@ pytest -q
 | Form says the captcha is invalid | The token is older than ~120 seconds or was used twice. Inject it right after it is returned and submit once. |
 | `callback fired: False` and the button stays disabled | The callback is registered through `grecaptcha.render({callback})`. Call that function name yourself after injection. |
 
+## Get an API key
+
+This example needs a CapMonster Cloud account and API key. Register and get the key on the [reCAPTCHA v2 solver page](https://capmonster.cloud/en/recaptcha-v2/?utm_source=github&utm_medium=repo-example&utm_campaign=python-playwright-recaptcha-v2&utm_content=cta). There you will also find pricing and the API description.
+
 ## Responsible use
 
 Use this code only on websites you own or are explicitly allowed to test and automate, for example QA of your own forms. Follow the website's terms of service and applicable laws. Keep your API key private.
@@ -63,4 +78,6 @@ Use this code only on websites you own or are explicitly allowed to test and aut
 ## Links
 
 - Python SDK: [CapMonster Cloud Python SDK](https://github.com/CapMonsterCloud/capmonster-python-captcha-solver)
-- reCAPTCHA v2 solving with CapMonster Cloud: [capmonster.cloud/en/recaptcha-v2](https://capmonster.cloud/en/recaptcha-v2/?utm_source=github&utm_medium=repo-example&utm_campaign=python-playwright-recaptcha-v2)
+- reCAPTCHA v2 solving with CapMonster Cloud: [capmonster.cloud/en/recaptcha-v2](https://capmonster.cloud/en/recaptcha-v2/?utm_source=github&utm_medium=repo-example&utm_campaign=python-playwright-recaptcha-v2&utm_content=links)
+
+reCAPTCHA is a trademark of Google LLC. CapMonster Cloud is not affiliated with or endorsed by Google.
