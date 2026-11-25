@@ -20,8 +20,8 @@ By default it runs against the public demo page `lessons.zennolab.com`, so you c
 ## Quick start
 
 ```bash
-git clone https://github.com/CapMonsterCloud/python-playwright-recaptcha-v2-capmonster.git
-cd python-playwright-recaptcha-v2-capmonster
+git clone https://github.com/CapMonsterCloud/python-playwright-recaptcha-v2-solver.git
+cd python-playwright-recaptcha-v2-solver
 pip install -r requirements.txt
 python -m playwright install chromium
 
